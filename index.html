@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Journey to You 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    :root {
+        --primary: #ff6b9d;
+        --secondary: #ffc2d4;
+        --accent: #ff8fab;
+        --dark: #2d2d2d;
+        --light: #fff5f8;
+        --text: #4a4a4a;
+    }
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background: linear-gradient(135deg, #ffeef8 0%, #fff5f8 50%, #ffe8f0 100%);
+        color: var(--text);
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
+
+    .flow {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .flow.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .flow.hidden {
+        display: none;
+    }
+
+    .content {
+        max-width: 700px;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 300;
+        color: var(--primary);
+        margin-bottom: 2rem;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 400;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+    }
+
+    p {
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+        color: var(--text);
+    }
+
+    .highlight {
+        color: var(--primary);
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    button {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        color: white;
+        border: none;
+        padding: 1.2rem 3rem;
+        font-size: 1.1rem;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        border-radius: 50px;
+        cursor: pointer;
+        margin-top: 2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    button:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4);
+    }
+
+    button span {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hearts-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    .heart {
+        position: absolute;
+        font-size: 2rem;
+        color: var(--secondary);
+        opacity: 0.3;
+        animation: float 15s infinite;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 0.3;
+        }
+        90% {
+            opacity: 0.3;
+        }
+        100% {
+            transform: translateY(-100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    .memory-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(255, 107, 157, 0.15);
+        margin: 1.5rem 0;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .memory-card:nth-child(2) { animation-delay: 0.2s; }
+    .memory-card:nth-child(3) { animation-delay: 0.4s; }
+    .memory-card:nth-child(4) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .memory-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.8rem;
+        color: var(--primary);
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+    }
+
+    .memory-text {
+        font-size: 1.1rem;
+        color: var(--text);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .love-list {
+        text-align: left;
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+
+    .love-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin: 1rem 0;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.1);
+        opacity: 0;
+        transform: translateX(-30px);
+        animation: slideInLeft 0.6s ease forwards;
+        position: relative;
+        padding-left: 3.5rem;
+    }
+
+    .love-item::before {
+        content: '💕';
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+    }
+
+    .love-item:nth-child(1) { animation-delay: 0.1s; }
+    .love-item:nth-child(2) { animation-delay: 0.2s; }
+    .love-item:nth-child(3) { animation-delay: 0.3s; }
+    .love-item:nth-child(4) { animation-delay: 0.4s; }
+    .love-item:nth-child(5) { animation-delay: 0.5s; }
+    .love-item:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes slideInLeft {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .question-box {
+        background: white;
+        padding: 3rem 2rem;
+        border-radius: 30px;
+        box-shadow: 0 30px 80px rgba(255, 107, 157, 0.2);
+        margin-top: 2rem;
+        animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 30px 80px rgba(255, 107, 157, 0.2);
+        }
+        50% {
+            box-shadow: 0 30px 80px rgba(255, 107, 157, 0.4);
+        }
+    }
+
+    .question-text {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        color: var(--primary);
+        margin: 2rem 0;
+        font-weight: 600;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .celebration {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    }
+
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--primary);
+        animation: confettiFall 3s linear forwards;
+    }
+
+    @keyframes confettiFall {
+        to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    .final-message {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2rem, 5vw, 3rem);
+        color: var(--primary);
+        margin-top: 2rem;
+        opacity: 0;
+        animation: fadeIn 1s ease 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    .emoji-large {
+        font-size: 4rem;
+        display: block;
+        margin: 1rem 0;
+        animation: heartbeat 1.5s ease infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+
+
+/* NO BUTTON RUN AWAY */
+
+#noBtn {
+    position: relative;
+}
+
+
+/* SLIDESHOW */
+
+/* FULL IMAGE SLIDESHOW */
+
+.slideshow-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(255,107,157,0.3);
+    background: #fff;
+}
+
+/* Auto height based on image */
+.slide {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+
+    left: 0;
+    top: 0;
+
+    object-fit: contain;   /* IMPORTANT */
+    background: white;
+
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+    position: relative;
+}
+
+@media (max-width: 600px) {
+
+    .slideshow-container {
+        max-width: 95%;
+    }
+
+    .slide {
+        max-height: 350px;
+    }
+}
+
+
+
+</style>
+```
+
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-bg" id="heartsContainer"></div>
+
+```
+<!-- Flow 1: The Beginning -->
+<div class="flow active" id="flow1">
+    <div class="content">
+        <h1>Every Love Story Has a Beginning...</h1>
+        <p>Ours started in the most unexpected place—</p>
+        <p class="highlight">The first day I spoke to you after night prep… you already know the story, so I won’t even go over it again 🤭✨ But that night felt different. It wasn’t just another random conversation or passing moment. There was something about the way we talked, the way you looked at me, the way everything just flowed so naturally 🌙💫</p>
+        <p>I didn’t fully understand it then, but deep down I felt it. My heart was already making a decision my mind hadn’t caught up to yet ❤️‍🩹</p>
+        <p>From that very moment, something in me just knew. Out of everyone, it was you. Not by coincidence. Not by chance. Just a quiet, certain knowing that I was standing in front of someone special 💕...</p>
+        <p>And every time I think about that night, I smile… because that was the beginning of something I didn’t even know I was praying for 🥹💖✨</p>
+        <button onclick="nextFlow(2)"><span>Our story continues...</span></button>
+    </div>
+</div>
+
+<!-- Flow 2: The Moment I Knew -->
+<div class="flow hidden" id="flow2">
+    <div class="content">
+        <h2>The Moment I Knew</h2>
+        <p>From that very first day we met, something felt different.</p>
+        <p>The way you smiled, the way we talked like we'd known each other forever...</p>
+        <p class="highlight">I knew you were special.</p>
+        <p>You weren't just someone I met on a random day in school—</p>
+        <p>You were someone who made me feel like I'd found something I didn't even know I was looking for.</p>
+        <p>And I haven't stopped thinking about you since.</p>
+        <button onclick="nextFlow(3)"><span>Keep going...</span></button>
+    </div>
+</div>
+
+<!-- Flow 3: Our Favorite Moments -->
+<div class="flow hidden" id="flow3">
+    <div class="content">
+        <h2>Our Favorite Moments</h2>
+        <p>These past few months have been full of moments I never want to forget...</p>
+        
+        <div class="memory-card">
+            <div class="memory-title">That First Day</div>
+            <div class="memory-text">When two strangers spoke on a random night and discovered something beautiful. The beginning of us.</div>
+        </div>
+
+        <div class="memory-card">
+            <div class="memory-title">Our First Kiss</div>
+            <div class="memory-text">Our first kiss in her class after inter-house sports 🏃🏽‍♂️❤️ The whole day was loud and chaotic, but in that moment, everything went quiet 🥹✨ My heart was racing more than it did on the field, and when our lips met… it just felt right 💋💞 That classroom stopped being ordinary that day it became ours 🤭💕</div> </div>
+
+        <div class="memory-card">
+            <div class="memory-title">Late Night Talks</div>
+            <div class="memory-text">Those endless conversations that made me feel like I could tell you anything. The moments when we connected on a deeper level.</div>
+        </div>
+        <button onclick="nextFlow(4)"><span>Keep going...</span></button>
+    </div>
+</div>
+
+<div class="flow hidden" id="flow4">
+    <div class="content">
+        <h2>Things i love about you...</h2>
+        <p>I love your face… every expression, every little look you give me 🥰 The way you scrunch it when you’re annoyed, the way it softens when you’re happy. You’re so beautiful to me it’s actually unfair 💕
+
+I love your body — the way you carry yourself, the way you move, the confidence you don’t even realize you have 😌 You’re art, and I admire you every chance I get ❤️
+
+I love your big beautiful forehead 🤭💋 it just makes you even more you… and honestly, it’s cute. It’s one of those little things I’d never change.
+
+I love when you act like a baby 😭💕 the little voices, the soft whining, the way you just want attention. It’s adorable and it melts me every time.
+
+Even your pettiness… yeah, even that 😅 Sometimes it’s “fucked” but it’s you. And somehow, I still find it cute because it shows how much you care.
+
+I love your voice. The way it sounds when you call my name. The way it changes when you’re excited. And when you sing? 🥹✨ I could listen forever. You don’t even know how much peace your voice gives me.
+
+I just love you. All of you. The sweet parts, the dramatic parts, the soft parts. Every single version ❤️✨
+💕</p>
+        <button onclick="nextFlow(5)"><span>Keep going...</span></button>
+    </div>
+
+</div>
+
+
+<!-- Flow 4: The Big Question -->
+<div class="flow hidden" id="flow5">
+    <div class="content">
+        <div class="question-box">
+
+            <span class="emoji-large">💖</span>
+
+            <h2 class="question-text">Will You Be My Val?</h2>
+
+            <div class="button-group">
+                <button onclick="sayYes()">
+                    <span>Yes 💕</span>
+                </button>
+
+                <button onclick="sayNo()" id="noBtn">
+                    <span>No 🙈</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Flow 5: Photo Gallery -->
+<div class="flow hidden" id="flow6">
+    <div class="content">
+
+        <h2>Our Memories 📸</h2>
+
+        <p>Because you said YES… here are our special moments 💖</p>
+
+        <!-- Slideshow -->
+<div class="slideshow-container">
+
+    <img class="slide active" src="images/1.jpg">
+    <img class="slide" src="images/2.jpg">
+    <img class="slide" src="images/3.jpg">
+    <img class="slide" src="images/4.jpg">
+
+</div>
+
+
+        <p class="final-message">
+            I Love You Forever 💕
+        </p>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+// ===============================
+// GLOBAL VARIABLES
+// ===============================
+let currentFlow = 1;
+const totalFlows = 6; // Change if you add more flows
+
+
+
+// ===============================
+// FLOW NAVIGATION FUNCTION
+// ===============================
+function nextFlow(flowNumber) {
+    const current = document.getElementById("flow" + currentFlow);
+    if (current) {
+        current.classList.remove("active");
+        current.classList.add("hidden");
+    }
+
+    const next = document.getElementById("flow" + flowNumber);
+    if (next) {
+        next.classList.remove("hidden");
+        setTimeout(() => {
+            next.classList.add("active");
+        }, 100);
+
+        // Scroll smoothly to top
+        window.scrollTo({
+            top: next.offsetTop - 20, // small padding from top
+            behavior: "smooth"
+        });
+
+        // Optional: extra hearts for love flows
+        if(flowNumber === 6){
+            for(let i=0;i<30;i++) createHeart();
+        }
+    }
+
+    currentFlow = flowNumber;
+}
+
+
+
+
+// ===============================
+// HEART BACKGROUND GENERATOR
+// ===============================
+function createHeart() {
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    // Heart emoji
+    heart.innerHTML = "💖";
+
+    // Random horizontal position
+    heart.style.left = Math.random() * 100 + "vw";
+
+    // Random size
+    const size = Math.random() * 20 + 15;
+    heart.style.fontSize = size + "px";
+
+    // Random animation duration
+    const duration = Math.random() * 10 + 10;
+    heart.style.animationDuration = duration + "s";
+
+    // Random delay
+    heart.style.animationDelay = Math.random() * 5 + "s";
+
+    // Add to container
+    document.getElementById("heartsContainer").appendChild(heart);
+
+    // Remove after animation
+    setTimeout(() => {
+        heart.remove();
+    }, duration * 1000);
+}
+
+
+
+// ===============================
+// START HEART GENERATOR
+// ===============================
+function startHearts() {
+    setInterval(createHeart, 800);
+}
+
+
+
+// ===============================
+// CONFETTI CELEBRATION
+// ===============================
+function startCelebration() {
+
+    const celebration = document.createElement("div");
+    celebration.classList.add("celebration");
+
+    document.body.appendChild(celebration);
+
+    for (let i = 0; i < 150; i++) {
+
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        // Random color
+        confetti.style.background =
+            `hsl(${Math.random() * 360}, 80%, 70%)`;
+
+        // Random position
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.top = "-20px";
+
+        // Random size
+        const size = Math.random() * 8 + 5;
+        confetti.style.width = size + "px";
+        confetti.style.height = size + "px";
+
+        // Random animation time
+        const time = Math.random() * 2 + 2;
+        confetti.style.animationDuration = time + "s";
+
+        celebration.appendChild(confetti);
+    }
+
+    // Remove after animation
+    setTimeout(() => {
+        celebration.remove();
+    }, 4000);
+}
+
+
+
+// ===============================
+// AUTO SCROLL TO TOP ON FLOW CHANGE
+// ===============================
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+
+// ===============================
+// PAGE LOAD FUNCTION
+// ===============================
+function initPage() {
+
+    // Start floating hearts
+    startHearts();
+
+    // Make first flow active
+    const firstFlow = document.getElementById("flow1");
+    if (firstFlow) {
+        firstFlow.classList.add("active");
+    }
+}
+
+
+
+// ===============================
+// RUN ON PAGE LOAD
+// ===============================
+window.onload = function () {
+    initPage();
+};
+
+// ===============================
+// YES BUTTON
+// ===============================
+function sayYes() {
+
+    // Show celebration
+    startCelebration();
+
+    // Go to gallery after short delay
+    setTimeout(() => {
+        nextFlow(6);
+
+        // Start slideshow
+        startSlideshow();
+    }, 1500);
+}
+
+
+
+// ===============================
+// NO BUTTON RUN AWAY 😄
+// ===============================
+function sayNo() {
+
+    const noBtn = document.getElementById("noBtn");
+
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+
+    noBtn.style.transform =
+        `translate(${x}px, ${y}px)`;
+}
+
+// ===============================
+// AUTO SLIDESHOW
+// ===============================
+
+let slideIndex = 0;
+let slideInterval;
+
+function startSlideshow() {
+
+    const slides = document.querySelectorAll(".slide");
+
+    if (slides.length === 0) return;
+
+    // Reset
+    slides.forEach(slide => slide.classList.remove("active"));
+
+    slideIndex = 0;
+    slides[slideIndex].classList.add("active");
+
+    // Start auto play
+    slideInterval = setInterval(() => {
+
+        slides[slideIndex].classList.remove("active");
+
+        slideIndex = (slideIndex + 1) % slides.length;
+
+        slides[slideIndex].classList.add("active");
+
+    }, 3000); // Change every 3 seconds
+}
+
+
+</script>
